@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=
+    , initial-scale=1.0"
+    />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <form class="container-fluid justify-content-start">
+        <button class="btn btn-outline-success me-2" type="button">
+          Main button
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" type="button">
+          Smaller button
+        </button>
+      </form>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-8">
+          <div class="row align-item-stretch">
+            <div class="col-3">
+              <div class="shadow p-4">
+                Total Accounts Receivable <br />
+                $6,621,280
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="shadow p-4">
+                Total Accounts payable <br />
+                $1,630,270
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="shadow p-4">
+                Equity Ratio <br />
+                $75.38%
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="shadow p-4">
+                Dept Equity <br />
+                1.10%
+              </div>
+            </div>
+          </div>
+          <div class="row align-item-stretch">
+            <div class="col-3">
+              <div class="shadow p-4">
+                Current Ratio
+                <canvas id="pieCR"></canvas>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="shadow p-4">
+                DSI<br />
+                [Days sales Inventory]
+                <canvas id="pieDSI"></canvas>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="shadow p-4">
+                DSO<br />
+                [Days Sales Outstanding]
+                <canvas id="pieDSO"></canvas>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="shadow p-4">
+                DPO<br />
+                [Days Payable Outstanding]
+                <canvas id="pieDPO"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="shadow p-4">
+            Total Accounts Receivable and payable aging
+            <canvas id="accountsAging"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="shadow p-4">
+            <p>Net working capital vs gross working capital</p>
+            <canvas id="netGrossCaptial"></canvas>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="shadow p-4">
+            <p>Profit and loss summary</p>
+            <canvas id="profitLoss"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- //graphs codes -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const datapieCR = {
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [60, 40],
+            backgroundColor: [
+              // "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "#bfbfbf",
+              // "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+      const configpieCR = {
+        type: "doughnut",
+        data: datapieCR,
+      };
+      var pieCR = new Chart(document.getElementById("pieCR"), configpieCR);
+
+      const datapieDSI = {
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [10, 21],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              // "rgb(54, 162, 235)",
+              "#bfbfbf",
+              // "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+      const configpieDSI = {
+        type: "doughnut",
+        data: datapieDSI,
+      };
+      var pieDSI = new Chart(document.getElementById("pieDSI"), configpieDSI);
+
+      const datapieDSO = {
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [7, 24],
+            backgroundColor: [
+              // "rgb(255, 99, 132)",
+              // "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+              "#bfbfbf",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+      const configpieDSO = {
+        type: "doughnut",
+        data: datapieDSO,
+      };
+
+      var pieDSO = new Chart(document.getElementById("pieDSO"), configpieDSO);
+
+      const datapieDPO = {
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [28, 3],
+            backgroundColor: [
+              // "rgb(255, 99, 132)",
+              "rgb(54, 235,54)",
+              "#bfbfbf",
+              // "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+      const configpieDPO = {
+        type: "doughnut",
+        data: datapieDPO,
+      };
+      var pieDPO = new Chart(document.getElementById("pieDPO"), configpieDPO);
+    </script>
+    <script>
+      const labelCapital = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+      ];
+      const dataCapital = {
+        labels: labelCapital,
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "#ef476f",
+            borderColor: "#ef476f",
+            data: [0, 10, 5, 2, 20, 30, 45],
+          },
+          {
+            label: "My second dataset",
+            backgroundColor: "#06d6a0",
+            borderColor: "#06d6a0",
+            data: [10, 5, 20, 35, 13, 26, 50],
+          },
+        ],
+      };
+      const configCapital = {
+        type: "line",
+        data: dataCapital,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      };
+      var netGrossCaptial = new Chart(
+        document.getElementById("netGrossCaptial"),
+        configCapital
+      );
+
+      const labelsProfit = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+      ];
+      const dataProfit = {
+        labels: labelsProfit,
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "#ef476f",
+            borderColor: "#ef476f",
+            data: [0, 10, 5, 2, 20, 30, 45],
+          },
+          {
+            label: "My second dataset",
+            backgroundColor: "#06d6a0",
+            borderColor: "#06d6a0",
+            data: [10, 5, 20, 35, 13, 26, 50],
+          },
+          {
+            label: "My third dataset",
+            backgroundColor: "#0689a0",
+            borderColor: "#06d6a0",
+            data: [10, 5, 20, 35, 13, 26, 50],
+          },
+          {
+            label: "My third dataset",
+            backgroundColor: "#75d6a0",
+            borderColor: "#06d6a0",
+            data: [10, 5, 20, 35, 13, 26, 50],
+          },
+        ],
+      };
+
+      const configProfit = {
+        type: "bar",
+        data: dataProfit,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Chart.js Bar Chart - Stacked",
+            },
+          },
+          responsive: true,
+          interaction: {
+            intersect: false,
+          },
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+            },
+          },
+        },
+      };
+      var profitLoss = new Chart(
+        document.getElementById("profitLoss"),
+        configProfit
+      );
+      const labelsAging = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+      ];
+      const dataAging = {
+        labels: labelsAging,
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "#ef476f",
+            borderColor: "#ef476f",
+            data: [0, 10, 5, 2, 20, 30, 45],
+          },
+          {
+            label: "My second dataset",
+            backgroundColor: "#06d6a0",
+            borderColor: "#06d6a0",
+            data: [10, 5, 20, 35, 13, 26, 50],
+          },
+          {
+            label: "My third dataset",
+            backgroundColor: "#06d6a0",
+            borderColor: "#06d6a0",
+            data: [10, 5, 20, 35, 13, 26, 50],
+          },
+        ],
+      };
+
+      const configAging = {
+        type: "bar",
+        data: dataAging,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Chart.js Bar Chart - Stacked",
+            },
+          },
+          responsive: true,
+          interaction: {
+            intersect: false,
+          },
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+            },
+          },
+        },
+      };
+      var accountsAging = new Chart(
+        document.getElementById("accountsAging"),
+        configAging
+      );
+    </script>
+  </body>
+</html>
